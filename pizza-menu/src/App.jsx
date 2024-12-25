@@ -45,48 +45,51 @@ const pizzaData = [
   },
 ];
 
+// const pizzaData =[]
+
 function Header() {
-  // return <h1 style={{ background: "red" }}> Fast React Pizza Co.</h1>;
   return (
     <header className="header">
-      <h1> Fast React Pizza Co.</h1>
+      <h1>Fast React Pizza Co.</h1>
     </header>
   );
 }
 
 function Menu() {
-  const pizzas = pizzaData;
-  // const pizzas = []
-  const numPizzas = pizzas.length;
   return (
     <main className="menu">
       <h2>Our Menu</h2>
-      {numPizzas > 0 ? (
-        <ul className="pizzas">
-          {pizzaData.map((pizza) => (
-            <Pizza pizzaObject={pizza} key={pizza.name} />
-          ))}
-        </ul>
+      {pizzaData.length > 0 ? (
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious.
+          </p>
+          <div className="pizzas">
+            <Pizza />
+          </div>
+        </>
       ) : (
-        <p>We're still working on menu, Please come back later.</p>
+        <p>We're still working on our menu, Please come back later</p>
       )}
     </main>
   );
 }
 
-function Pizza({ pizzaObject }) {
-  const { name, photoName, ingredients, price, soldOut } = pizzaObject;
-  // console.log(props);
-  if (soldOut) return null;
+function Pizza() {
   return (
-    <li className="pizza">
-      <img src={photoName} />
-      <div>
-        <h3>{name}</h3>
-        <p>{ingredients}</p>
-        <span>{price}</span>
-      </div>
-    </li>
+    <>
+      {pizzaData.map((pizza) => (
+        <div className={`pizza ${pizza.soldOut ? "sold-out" : ""}`}>
+          <img src={pizza.photoName} />
+          <div>
+            <h3>{pizza.name}</h3>
+            <p>{pizza.ingredients}</p>
+            <span>{pizza.price}</span>
+          </div>
+        </div>
+      ))}
+    </>
   );
 }
 
@@ -94,37 +97,25 @@ function Footer() {
   const openHours = 9;
   const closeHours = 22;
   const hour = new Date().getHours();
-  const isOpen = hour >= openHours && hour <= closeHours;
 
-  if (!isOpen) {
-    return (
-      <footer className="footer">
-        <p className="order">Closed</p>
-      </footer>
-    );
-  }
   return (
     <footer className="footer">
-      {isOpen && (
-        <div className="order">
-          <p>
-            We're are open untill {closeHours}:00, Come visit us or order online
-          </p>
-          <button className="btn">Order</button>
-        </div>
-      )}
+      <div className="order">
+        <p>
+          We're are open untill {closeHours}:00, Come Visit us or Order Online
+        </p>
+        <button className="btn">Order</button>
+      </div>
     </footer>
   );
 }
 
-function App() {
+export default function App() {
   return (
-    <div>
+    <>
       <Header />
       <Menu />
       <Footer />
-    </div>
+    </>
   );
 }
-
-export default App;
